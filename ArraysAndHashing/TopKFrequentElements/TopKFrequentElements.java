@@ -108,9 +108,38 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        int[] result = solution.topKFrequent(nums, k);
+        int[] result = solution.topKFrequent10(nums, k);
         for (int num : result) {
             System.out.println(num);
         }
+    }
+
+    public int[] topKFrequent10(int[] nums, int k) {
+        Map<Integer, Integer> numCounts = new HashMap<>();
+        for (int num : nums) {
+            numCounts.put(num, numCounts.getOrDefault(num, 0) + 1);
+        }
+        List<Integer>[] buckets = new List[nums.length + 1];
+        for (int i = 0; i < nums.length + 1; i++) {
+            buckets[i] = new ArrayList<>();
+        }
+        for (Map.Entry<Integer, Integer> entry : numCounts.entrySet()) {
+            buckets[entry.getValue()].add(entry.getKey());
+        }
+        int index = 0;
+        int[] res = new int[k];
+        for (int i = buckets.length - 1; i >= 0 && index < k; i--) {
+            for (int num : buckets[i]) {
+                res[index++] = num;
+                if (index == k) {
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+    public int maxKey10(Map<Integer, Integer> numCounts) {
+        return 0;
     }
 }

@@ -39,6 +39,21 @@ class Solution {
             heights[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(solution.maxArea(heights));
+        System.out.println(solution.maxArea10(heights));
+    }
+
+    public int maxArea10 (int[] heights) {
+        int maxArea = 0;
+        int l = 0, r = heights.length - 1;
+        while (l < r) {
+            int area = Math.min(heights[l], heights[r]) * (r - l);
+            maxArea = Math.max(maxArea, area);
+            if (heights[l] <= heights[r]) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return maxArea;
     }
 }

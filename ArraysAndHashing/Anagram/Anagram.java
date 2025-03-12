@@ -81,7 +81,11 @@ class Solution {
         String t = args[1];
 
         Solution solution = new Solution();
-        boolean result = solution.isAnagram(s, t);
+        boolean result = solution.isAnagram10(s, t);
         System.out.println(result);
+    }
+
+    public boolean isAnagram10(String s, String t) {
+        
     }
 }

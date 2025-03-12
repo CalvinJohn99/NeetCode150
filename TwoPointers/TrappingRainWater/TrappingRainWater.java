@@ -50,6 +50,24 @@ class Solution {
             height[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(solution.trap(height));
+        System.out.println(solution.trap10(height));
+    }
+
+    public int trap10 (int[] height) {
+        int l = 0, r = height.length - 1;
+        int maxLeft = height[0], maxRight = height[height.length - 1];
+        int waterBlocks = 0;
+        while (l < r) {
+            if (maxLeft <= maxRight) {
+                l++;
+                waterBlocks += Math.max(maxLeft - height[l], 0);
+                maxLeft = Math.max(maxLeft, height[l]);
+            } else if (maxRight < maxLeft) {
+                r--;
+                waterBlocks += Math.max(maxRight - height[r], 0);
+                maxRight = Math.max(maxRight, height[r]);
+            }
+        }
+        return waterBlocks;
     }
 }

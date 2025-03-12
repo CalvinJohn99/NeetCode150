@@ -44,9 +44,21 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        int[] result = solution.twoSum(nums, target);
+        int[] result = solution.twoSum10(nums, target);
         for (int value : result) {
             System.out.println(value);
         }
+    }
+
+    public int[] twoSum10(int[] nums, int target) {
+        Map<Integer, Integer> numIndices = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int toSum = target - nums[i];
+            if (numIndices.containsKey(toSum)) {
+                return new int[]{i, numIndices.get(toSum)};
+            }
+            numIndices.put(nums[i], i);
+        }
+        return new int[0];
     }
 }

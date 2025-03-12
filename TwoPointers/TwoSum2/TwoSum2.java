@@ -28,6 +28,21 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(Arrays.toString(solution.twoSum(nums, target)));
+        System.out.println(Arrays.toString(solution.twoSum10(nums, target)));
+    }
+
+    public int[] twoSum10 (int[] numbers, int target) {
+        int l = 0, r = numbers.length - 1;
+        while (l < r) {
+            int sum = numbers[l] + numbers[r];
+            if (sum < target) {
+                l++;
+            } else if (sum > target) {
+                r--;
+            } else {
+                return new int[]{l + 1, r + 1};
+            }
+        }
+        return new int[0];
     }
 }

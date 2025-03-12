@@ -59,11 +59,25 @@ class Solution {
     }
 
     public boolean isPalindrome10 (String s) {
-        
+        int l = 0, r = s.length() - 1;
+        while (l < r) {
+            while (!isAlphaNumeric10(s.charAt(l)) && l < r) {
+                l++;
+            }
+            while (!isAlphaNumeric10(s.charAt(r)) && l < r) {
+                r--;
+            }
+            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
     }
 
     public boolean isAlphaNumeric10(char c) {
-
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
     }
 
 }

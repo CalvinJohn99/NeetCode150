@@ -72,10 +72,37 @@ class Solution {
             strs.add(args[i]);
         }
         Solution solution = new Solution();
-        String encodedString = solution.encode(strs);
-        List<String> decodedStringList = new ArrayList<>(solution.decode(encodedString));
+        String encodedString = solution.encode10(strs);
+        List<String> decodedStringList = new ArrayList<>(solution.decode10(encodedString));
         System.out.println("strs: ");
         System.out.println(strs.toString());
-        System.out.println(decodedStringList.toString());
+        System.out.println("encoded string: " + encodedString);
+        System.out.println("decoded string: " + decodedStringList.toString());
     }
+
+    public String encode10 (List<String> strs) {
+        StringBuilder encodedString = new StringBuilder();
+        for (String str : strs) {
+            encodedString.append(str.length()).append('#').append(str);
+        }
+        return encodedString.toString();
+    }
+
+    public List<String> decode10 (String str) {
+        List<String> res = new ArrayList<>();
+        int i = 0;
+        while (i < str.length()) {
+            int j = i;
+            while (str.charAt(j) != '#') {
+                j++;
+            }
+            int length = Integer.parseInt(str.substring(i, j));
+            i = j + 1;
+            j = i + length;
+            res.add(str.substring(i, j));
+            i = j;
+        }
+        return res;
+    }
+
 }

@@ -60,6 +60,31 @@ class Solution {
             System.out.println(Arrays.toString(row));
         }
         Solution solution = new Solution();
-        System.out.println(solution.isValidSudoku(board));
+        System.out.println(solution.isValidSudoku10(board));
+    }
+
+    public boolean isValidSudoku10 (char[][] board) {
+        Set<Character>[] rows = new Set[board.length];
+        Set<Character>[] cols = new Set[board[0].length];
+        Set<Character>[] subBoxes = new Set[board.length];
+        for (int i = 0; i < board.length; i++) {
+            rows[i] = new HashSet<>();
+            cols[i] = new HashSet<>();
+            subBoxes[i] = new HashSet<>();
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == '.') {
+                    continue;
+                }
+                if (rows[i].contains(board[i][j]) || cols[j].contains(board[i][j]) || subBoxes[(i/3)*3+(j/3)].contains(board[i][j])) {
+                    return false;
+                }
+                rows[i].add(board[i][j]);
+                cols[j].add(board[i][j]);
+                subBoxes[(i/3)*3+(j/3)].add(board[i][j]);
+            }
+        }
+        return true;
     }
 }

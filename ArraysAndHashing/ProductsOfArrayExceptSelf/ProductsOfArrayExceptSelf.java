@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class Solution {
     public int[] productExceptSelf(int[] nums) {
         int[] result = new int[nums.length];
@@ -83,9 +85,24 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        int[] result = solution.productExceptSelf(nums);
+        int[] result = solution.productExceptSelf10(nums);
         for (int val : result) {
             System.out.println(val);
         }
+    }
+
+    public int[] productExceptSelf10(int[] nums) {
+        int[] result = new int[nums.length];
+        int prefix = 1;
+        for (int i = 0; i < nums.length; i++) {
+            result[i] = prefix;
+            prefix *= nums[i];
+        }
+        int postfix = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            result[i] *= postfix;
+            postfix *= nums[i];
+        }
+        return result;
     }
 }

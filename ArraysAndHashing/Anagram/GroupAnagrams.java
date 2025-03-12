@@ -2,10 +2,25 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> anagramGroups = new HashMap<>();
+        for (String str : strs) {
+            int[] cCounts = new int[26];
+            for (char c : str.toCharArray()) {
+                cCounts[c - 'a'] += 1;
+            }
+            String key = Arrays.toString(cCounts);
+            anagramGroups.putIfAbsent(key, new ArrayList<>());
+            anagramGroups.get(key).add(str);
+        }
+        return new ArrayList<>(anagramGroups.values());
+    }
+
+    public List<List<String>> groupAnagrams3(String[] strs) {
         List<List<String>> result = new ArrayList<>();
         Map<Map, List<String>> anagramGroups = new HashMap<>();
         for (String str : strs) {
@@ -32,7 +47,7 @@ class Solution {
             List<String> anagrams = new ArrayList<>();
             anagrams.add(strs[i]);
             for (int j = i + 1; j < strs.length; j++) {
-                if (isAnagram(strs[i], strs[j])) {
+                if (isAnagram(strs[i], strs[j]) && !matched[j]) {
                     matched[j] = true;
                     anagrams.add(strs[j]);
                 }
@@ -67,7 +82,7 @@ class Solution {
             strs[i] = args[i];
         }
         Solution solution = new Solution();
-        List<List<String>> result = solution.groupAnagrams(strs);
+        List<List<String>> result = solution.groupAnagrams10(strs);
         for (int i = 0; i < result.size(); i++) {
             System.out.println("Anagram: " + i);
             List<String> anagram = result.get(i);
@@ -75,5 +90,36 @@ class Solution {
                 System.out.println(anagram.get(j));
             }
         }
+        System.out.println("Anagram Groups: " + result.toString());
     }
+
+    public List<List<String>> groupAnagrams10(String[] strs) {
+        Map<String, List<String>> anagramGroups = new HashMap<>();
+        for (String str : strs) {
+            int[] cCounts = new int[26];
+            for (char c : str.toCharArray()) {
+                cCounts[c - 'a']++;
+            }
+            String key = Arrays.toString(cCounts);
+            anagramGroups.putIfAbsent(key, new ArrayList<>());
+            anagramGroups.get(key).add(str);
+        }
+        return new ArrayList<>(anagramGroups.values());
+    }
+
+    public boolean isAnagram10(String s, String t) {
+        Map<Character, Integer> sCounts = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            sCounts.put(c, sCounts.getOrDefault(c, 0) + 1);
+        }
+        Map<Character, Integer> tCounts = new HashMap<>();
+        for (char c: t.toCharArray()) {
+            tCounts.put(c, tCounts.getOrDefault(c, 0) + 1);
+        }
+        if (sCounts.equals(tCounts)) {
+            return true;
+        }
+        return false;
+    }
+
 }

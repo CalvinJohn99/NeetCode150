@@ -52,10 +52,28 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(solution.LongestConsecutiveSequence(nums));
+        System.out.println(solution.LongestConsecutiveSequence10(nums));
     }
 
     public int LongestConsecutiveSequence10(int[] nums) {
-        
+        if (nums.length == 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int longest = 0;
+        int next = nums[0],  i = 0, streak = 0;
+        while (i < nums.length) {
+            if (next != nums[i]) {
+                next = nums[i];
+                streak = 0;
+            }
+            while (i < nums.length && nums[i]==next) {
+                i++;
+            }
+            next++;
+            streak++;
+            longest = Math.max(longest, streak);
+        }
+        return longest;
     }
 }

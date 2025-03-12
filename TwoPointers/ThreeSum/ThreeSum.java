@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
@@ -67,9 +71,36 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        List<List<Integer>> result = solution.threeSum(nums);
+        List<List<Integer>> result = solution.threeSum10(nums);
         for (List<Integer> threeSum : result) {
             System.out.println(threeSum.toString());
         }
+    }
+
+    public List<List<Integer>> threeSum10 (int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int l = i + 1, r = nums.length - 1;
+            while (l < r) {
+                int threeSum = nums[i] + nums[l] + nums[r];
+                if (threeSum < 0) {
+                    l++;
+                } else if (threeSum > 0) {
+                    r--;
+                }
+                if (threeSum == 0) {
+                    res.add(new ArrayList<>(Arrays.asList(nums[i], nums[l], nums[r])));
+                    l++;
+                    while (nums[l] == nums[l-1] && l < r) {
+                        l++;
+                    }
+                }
+            }
+        }
+        return res;
     }
 }

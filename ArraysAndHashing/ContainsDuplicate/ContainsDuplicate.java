@@ -53,4 +53,8 @@ class Solution {
         boolean result = solution.hasDuplicate(nums);
         System.out.println(result);
     }
+
+    public boolean hasDuplicate10(int[] nums) {
+        
+    }
 }
