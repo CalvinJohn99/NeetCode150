@@ -1,0 +1,6 @@
+5
+CustomerEnter 123 1 5
+CustomerEnter 2 2 3
+LinesService
+CustomerEnter 3 1 2 
+LineService 1 6

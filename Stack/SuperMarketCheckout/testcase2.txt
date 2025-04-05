@@ -1,0 +1,6 @@
+5
+CustomerEnter 123 1 5
+CustomerEnter 3 1 2 
+LineService 1 4
+BasketChange 123 6
+LineService 1 5

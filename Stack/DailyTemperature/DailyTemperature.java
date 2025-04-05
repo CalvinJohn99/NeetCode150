@@ -26,7 +26,21 @@ class Solution {
             temperatures[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        int[] result = solution.dailyTemperatures(temperatures);
+        int[] result = solution.dailyTemperatures10(temperatures);
         System.out.println(Arrays.toString(result));
+    }
+
+    public int[] dailyTemperatures10(int[] temperatures) {
+        int[] res = new int[temperatures.length];
+        Stack<int[]> stack = new Stack<>();
+        for (int i = 0; i < temperatures.length; i++) {
+            int t = temperatures[i];
+            while (!stack.isEmpty() && t > stack.peek()[0]) {
+                int[] pair = stack.pop();
+                res[pair[1]] = i - pair[1];
+            }
+            stack.push(new int[]{t, i});
+        }
+        return res;
     }
 }
