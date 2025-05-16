@@ -40,23 +40,22 @@ class Solution {
     }
 
     public int[] maxSlidingWindow10(int[] nums, int k) {
-        int n = nums.length;
-        int[] output = new int[n - k + 1];
-        Deque<Integer> q = new LinkedList<>();
+        int[] res = new int[nums.length - k + 1];
+        Deque<Integer> deque = new LinkedList<>();
         int l = 0;
         for (int r = 0; r < nums.length; r++) {
-            while (!q.isEmpty() && nums[q.getLast()] < nums[r]) {
-                q.removeLast();
+            while (!deque.isEmpty() && nums[deque.getLast()] < nums[r]) {
+                deque.removeLast();
             }
-            q.addLast(r);
-            if (l > q.getFirst()) {
-                q.removeFirst();
+            deque.addLast(r);
+            if (l > deque.getFirst()) {
+                deque.removeFirst();
             }
-            if ((r + 1) >= k) {
-                output[l] = nums[q.getFirst()];
+            if ((r - l + 1) == k) {
+                res[l] = nums[deque.getFirst()];
                 l++;
             }
         }
-        return output;
+        return res;
     }
 }

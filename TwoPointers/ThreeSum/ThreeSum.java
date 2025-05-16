@@ -78,24 +78,23 @@ class Solution {
     }
 
     public List<List<Integer>> threeSum10 (int[] nums) {
-        Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) {
+            if (i > 0 && nums[i] == nums[i-1]) {
                 continue;
             }
             int l = i + 1, r = nums.length - 1;
             while (l < r) {
-                int threeSum = nums[i] + nums[l] + nums[r];
-                if (threeSum < 0) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum < 0) {
                     l++;
-                } else if (threeSum > 0) {
+                } else if (sum > 0) {
                     r--;
-                }
-                if (threeSum == 0) {
-                    res.add(new ArrayList<>(Arrays.asList(nums[i], nums[l], nums[r])));
+                } else {
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
                     l++;
-                    while (nums[l] == nums[l-1] && l < r) {
+                    while (nums[l] == nums[l - 1] && l < r) {
                         l++;
                     }
                 }

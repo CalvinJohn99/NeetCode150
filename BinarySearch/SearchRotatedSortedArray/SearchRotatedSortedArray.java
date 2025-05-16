@@ -36,6 +36,29 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(solution.search(nums, target));
+        System.out.println(solution.search10(nums, target));
+    }
+
+    public int search10(int[] nums, int target) {
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (nums[m] == target) {
+                return m;
+            } else if (nums[m] >= nums[l]) {
+                if (target > nums[m] || target < nums[l]) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            } else {
+                if (target < nums[m] || target > nums[r]) {
+                    r = m - 1;
+                } else {
+                    l = m + 1;
+                }
+            } 
+        }
+        return -1;
     }
 }

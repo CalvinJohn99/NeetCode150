@@ -47,18 +47,18 @@ class Solution {
     }
 
     public int characterReplacement10(String s, int k) {
-        int longest = 0;
+        int res = 0;
         Map<Character, Integer> cCounts = new HashMap<>();
-        int l = 0, maxF = 0; 
+        int l = 0, maxF = 0;
         for (int r = 0; r < s.length(); r++) {
             cCounts.put(s.charAt(r), cCounts.getOrDefault(s.charAt(r), 0) + 1);
             maxF = Math.max(maxF, cCounts.get(s.charAt(r)));
-            while (r - l + 1 - maxF > k) {
+            while ((r-l+1) - maxF > k) {
                 cCounts.put(s.charAt(l), cCounts.get(s.charAt(l)) - 1);
                 l++;
             }
-            longest = Math.max(longest, r - l + 1);
+            res = Math.max(res, r - l + 1);
         }
-        return longest;
+        return res;
     }
 }

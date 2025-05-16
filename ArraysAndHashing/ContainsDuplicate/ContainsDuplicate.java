@@ -55,6 +55,13 @@ class Solution {
     }
 
     public boolean hasDuplicate10(int[] nums) {
-        
+        Set<Integer> checkDuplicates = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (checkDuplicates.contains(nums[i])) {
+                return true;
+            }
+            checkDuplicates.add(nums[i]);
+        }
+        return false;
     }
 }

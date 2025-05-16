@@ -86,6 +86,14 @@ class Solution {
     }
 
     public boolean isAnagram10(String s, String t) {
-        
+        Map<Character, Integer> sCounts = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            sCounts.put(c, sCounts.getOrDefault(c, 0) + 1);
+        } 
+        Map<Character, Integer> tCounts = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            tCounts.put(c, tCounts.getOrDefault(c, 0) + 1);
+        }
+        return sCounts.equals(tCounts);
     }
 }

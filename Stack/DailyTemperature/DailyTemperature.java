@@ -34,12 +34,11 @@ class Solution {
         int[] res = new int[temperatures.length];
         Stack<int[]> stack = new Stack<>();
         for (int i = 0; i < temperatures.length; i++) {
-            int t = temperatures[i];
-            while (!stack.isEmpty() && t > stack.peek()[0]) {
+            while (!stack.isEmpty() && temperatures[i] > stack.peek()[1]) {
                 int[] pair = stack.pop();
-                res[pair[1]] = i - pair[1];
+                res[pair[0]] = i - pair[0];
             }
-            stack.push(new int[]{t, i});
+            stack.push(new int[]{i, temperatures[i]});
         }
         return res;
     }

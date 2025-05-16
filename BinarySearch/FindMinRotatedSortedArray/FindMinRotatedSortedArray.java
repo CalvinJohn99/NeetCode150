@@ -30,6 +30,24 @@ class Solution {
             nums[i] = Integer.parseInt(args[i]);
         }
         Solution solution = new Solution();
-        System.out.println(solution.findMin(nums));
+        System.out.println(solution.findMin10(nums));
+    }
+
+    public int findMin10(int[] nums) {
+        int res = Integer.MAX_VALUE;
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            if (nums[l] < nums[r]) {
+                return Math.min(res, nums[l]);
+            }
+            int m = (l + r) / 2;
+            res = Math.min(res, nums[m]);
+            if (nums[m] >= nums[l]) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+        return res;
     }
 }

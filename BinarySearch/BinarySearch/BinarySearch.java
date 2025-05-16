@@ -31,7 +31,7 @@ class Solution {
     public int search10(int[] nums, int target) {
         int l = 0, r = nums.length - 1;
         while (l <= r) {
-            int m = l + ((r - l) / 2);
+            int m = (l + r) / 2;
             if (nums[m] > target) {
                 r = m - 1;
             } else if (nums[m] < target) {
@@ -40,6 +40,6 @@ class Solution {
                 return m;
             }
         }
-        return -1; 
+        return -1;
     }
 }

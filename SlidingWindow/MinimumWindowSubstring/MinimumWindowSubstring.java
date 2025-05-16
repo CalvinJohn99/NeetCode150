@@ -91,41 +91,42 @@ class Solution {
         String s = args[0];
         String t = args[1];
         Solution solution = new Solution();
-        System.out.println(solution.minWindow(s, t));
+        System.out.println(solution.minWindow10(s, t));
     }
 
     public String minWindow10(String s, String t) {
-        if (t.length() > s.length()) {
+        if (s.length() < t.length()) {
             return "";
         }
-        Map<Character, Integer> window = new HashMap<>();
+        // length of valid min window, [left char index, right char index]
+        int[] res = new int[]{Integer.MAX_VALUE, -1, -1};
         Map<Character, Integer> tCounts = new HashMap<>();
-        for (char c : t.toCharArray()) {
-            tCounts.put(c, tCounts.getOrDefault(c, 0) + 1);
+        Map<Character, Integer> sCounts = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            tCounts.put(t.charAt(i), tCounts.getOrDefault(t.charAt(i), 0) + 1);
         }
-        int resLen = Integer.MAX_VALUE;
-        int[] res = {-1, -1};
-        int have = 0, need = tCounts.size();
-        int l = 0; 
+        int need = tCounts.size(), have = 0;
+        int l = 0;
         for (int r = 0; r < s.length(); r++) {
-            char c = s.charAt(r);
-            window.put(c, window.getOrDefault(c, 0) + 1);
-            if (tCounts.containsKey(c) && tCounts.get(c).equals(window.get(c))) {
+            char rightChar = s.charAt(r);
+            sCounts.put(rightChar, sCounts.getOrDefault(rightChar, 0) + 1);
+            if (tCounts.containsKey(rightChar) && sCounts.get(rightChar).equals(tCounts.get(rightChar))) {
                 have++;
             }
             while (have == need) {
-                if (resLen > r - l + 1) {
-                    resLen = r - l + 1;
-                    res[0] = l; res[1] = r;
+                if ((r - l + 1) < res[0]) {
+                    res[0] = (r - l + 1);
+                    res[1] = l;
+                    res[2] = r;
                 }
                 char leftChar = s.charAt(l);
-                window.put(leftChar, window.get(leftChar) - 1);
-                if (tCounts.containsKey(leftChar) && tCounts.get(leftChar) > (window.get(leftChar))) {
+                sCounts.put(leftChar, sCounts.getOrDefault(leftChar, 1) - 1);
+                if (tCounts.containsKey(leftChar) && sCounts.get(leftChar) < tCounts.get(leftChar)) {
                     have--;
                 }
                 l++;
             }
         }
-        return (resLen < Integer.MAX_VALUE) ? s.substring(res[0], res[1] + 1) : "";
+        return (res[0] == Integer.MAX_VALUE) ? "" : s.substring(res[1], res[2] + 1);
     }
 }

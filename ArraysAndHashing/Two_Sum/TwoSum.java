@@ -51,13 +51,13 @@ class Solution {
     }
 
     public int[] twoSum10(int[] nums, int target) {
-        Map<Integer, Integer> numIndices = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             int toSum = target - nums[i];
-            if (numIndices.containsKey(toSum)) {
-                return new int[]{i, numIndices.get(toSum)};
+            if (map.containsKey(toSum)) {
+                return new int[]{map.get(toSum), i};
             }
-            numIndices.put(nums[i], i);
+            map.put(nums[i], i);
         }
         return new int[0];
     }

@@ -43,14 +43,14 @@ class Solution {
     }
 
     public boolean isValid10(String s) {
-        Map<Character, Character> closeToOpen = new HashMap<>();
-        closeToOpen.put(')', '(');
-        closeToOpen.put(']', '[');
-        closeToOpen.put('}', '{');
+        Map<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put(']', '[');
+        map.put('}', '{');
         Stack<Character> stack = new Stack<>();
         for (char c : s.toCharArray()) {
-            if (closeToOpen.containsKey(c)) {
-                if (stack.peek() == closeToOpen.get(c)) {
+            if (map.containsKey(c)) {
+                if (!stack.empty() && stack.peek() == map.get(c)) {
                     stack.pop();
                 } else {
                     return false;

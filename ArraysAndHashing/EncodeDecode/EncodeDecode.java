@@ -81,11 +81,11 @@ class Solution {
     }
 
     public String encode10 (List<String> strs) {
-        StringBuilder encodedString = new StringBuilder();
+        StringBuilder res = new StringBuilder();
         for (String str : strs) {
-            encodedString.append(str.length()).append('#').append(str);
+            res.append(str.length()).append('#').append(str);
         }
-        return encodedString.toString();
+        return res.toString();
     }
 
     public List<String> decode10 (String str) {
@@ -101,7 +101,7 @@ class Solution {
             j = i + length;
             res.add(str.substring(i, j));
             i = j;
-        }
+        } 
         return res;
     }
 

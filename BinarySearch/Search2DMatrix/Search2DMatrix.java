@@ -8,62 +8,34 @@ import java.util.Arrays;
 
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int l = 0, r = matrix.length - 1;
-        int targetRow = -1;
-        while (l <= r) {
-            int m = l + ((r - l) / 2);
-            int rowSize = matrix[m].length;
-            if (target > matrix[m][rowSize - 1]) {
-                l = m + 1;
-            } else if (target < matrix[m][0]) {
-                r = m - 1;
+        int ROWS = matrix.length, COLS = matrix[0].length;
+        int top = 0, bot = ROWS - 1;
+        while (top <= bot) {
+            int row = (top + bot) / 2;
+            if (target > matrix[row][COLS - 1]) {
+                top = row + 1;
+            } else if (target < matrix[row][0]) {
+                bot = row - 1;
             } else {
-                targetRow = m;
                 break;
             }
         }
-        if (targetRow == -1) {
+        if (!(top <= bot)) {
             return false;
-        } else {
-            l = 0;
-            r = matrix[targetRow].length - 1;
-            while (l <= r) {
-                int m = l + ((r - l) / 2);
-                if (target > matrix[targetRow][m]) {
-                    l = m + 1;
-                } else if (target < matrix[targetRow][m]) {
-                    r = m - 1;
-                } else {
-                    return true;
-                }
+        }
+        int row = (top + bot) / 2;
+        int l = 0, r = COLS - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (matrix[row][m] < target) {
+                l = m + 1;
+            } else if (matrix[row][m] > target) {
+                r = m - 1;
+            } else {
+                return true;
             }
         }
         return false;
-    }
-
-    public static void main(String args[]) {
-        if (args.length == 0) {
-            System.out.println("Please provide testcase");
-            return;
-        } 
-        Solution solution = new Solution();
-        try {
-            File file = new File(args[0]);
-            Scanner scanner = new Scanner(file);
-            int numArgs = Integer.parseInt(scanner.nextLine().trim());
-            String matrixLine = scanner.nextLine().trim();
-            int[][] matrix = parseMatrix(matrixLine);
-            int target = Integer.parseInt(scanner.nextLine().trim());
-
-            System.out.println(solution.searchMatrix(matrix, target));
-
-            scanner.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number format in input.");
-        }
     }
 
     public static int[][] parseMatrix(String matrixLine) {
@@ -80,4 +52,58 @@ class Solution {
         }
         return matrix;
     }
+
+    public static void main(String args[]) {
+        if (args.length == 0) {
+            System.out.println("Please provide testcase");
+            return;
+        } 
+        Solution solution = new Solution();
+        try {
+            File file = new File(args[0]);
+            Scanner scanner = new Scanner(file);
+            int numArgs = Integer.parseInt(scanner.nextLine().trim());
+            String matrixLine = scanner.nextLine().trim();
+            int[][] matrix = parseMatrix(matrixLine);
+            int target = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.println(solution.searchMatrix10(matrix, target));
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format in input.");
+        }
+    }
+
+    public boolean searchMatrix10(int[][] matrix, int target) {
+        int ROWS = matrix.length, COLS = matrix[0].length;
+        int top = 0, bot = ROWS - 1;
+        while (top <= bot) {
+            int row = (top + bot) / 2;
+            if (target > matrix[row][COLS-1]) {
+                top = row + 1;
+            } else if (target < matrix[row][0]) {
+                bot = row - 1;
+            } else {
+                break;
+            }
+        }
+        int row = (top + bot) / 2;
+        int l = 0, r = COLS - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (target > matrix[row][m]) {
+                l = m + 1;
+            } else if (target < matrix[row][m]) {
+                r = m - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

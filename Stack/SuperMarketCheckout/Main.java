@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.*;
 
 public class Main {
 
@@ -25,9 +26,9 @@ public class Main {
         public void onBasketChange(long customerId, long newNumItems) {
             for (long lineNumber : map.keySet()) {
                 Queue<long[]> q = map.get(lineNumber);
-                for (long[] customerBasket : q) {
-                    if (customerBasket[0] == customerId) {
-                        customerBasket[1] = newNumItems;
+                for (long[] customer : q) {
+                    if (customer[0] == customerId) {
+                        customer[1] = newNumItems;
                         return;
                     }
                 }
@@ -39,21 +40,33 @@ public class Main {
             if (q == null || q.isEmpty()) {
                 return;
             }
+            // my code, not chatgpt
             while (numProcessedItems > 0) {
-                long[] customerBasket = q.peek();
-                long toProcessNext = 0;
-                if (numProcessedItems > customerBasket[1]) {
-                    toProcessNext = numProcessedItems - customerBasket[1];
-                    customerBasket[1] = 0;
-                } else {
-                    customerBasket[1] -= numProcessedItems;
-                }
-                if (customerBasket[1] <= 0) {
+                long[] customer = q.peek();
+                if (numProcessedItems >= customer[1]) {
+                    onCustomerExit(customer[0]);
                     q.poll();
-                    onCustomerExit(customerBasket[0]);
+                    numProcessedItems -= customer[1];
+                } else {
+                    customer[1] -= numProcessedItems;
+                    numProcessedItems = 0;
                 }
-                numProcessedItems = toProcessNext;
             }
+            // while (numProcessedItems > 0) {
+            //     long[] customerBasket = q.peek();
+            //     long toProcessNext = 0;
+            //     if (numProcessedItems > customerBasket[1]) {
+            //         toProcessNext = numProcessedItems - customerBasket[1];
+            //         customerBasket[1] = 0;
+            //     } else {
+            //         customerBasket[1] -= numProcessedItems;
+            //     }
+            //     if (customerBasket[1] <= 0) {
+            //         q.poll();
+            //         onCustomerExit(customerBasket[0]);
+            //     }
+            //     numProcessedItems = toProcessNext;
+            // }
         }
 
         public void onLinesService() {
@@ -62,17 +75,16 @@ public class Main {
                 if (q == null || q.isEmpty()) {
                     continue;
                 }
-                long[] customerBasket = q.peek();
-                customerBasket[1] -= 1; 
-                if (customerBasket[1] <= 0) {
+                long[] customer = q.peek();
+                customer[1] -= 1; 
+                if (customer[1] <= 0) {
                     q.poll();
-                    onCustomerExit(customerBasket[0]);
+                    onCustomerExit(customer[0]);
                 }
             }
         }
 
         private void onCustomerExit(long customerId) {
-            // Don't change this implementation.
             System.out.println(customerId);
         }
     };
@@ -124,6 +136,14 @@ public class Main {
                 }
             }
 
+            // Print Left over Customers in queues:
+            System.out.println("Customers waiting in queues:");
+            for (Queue<long[]> q : supermarketCheckout.map.values()) {
+                for (long[] customer : q) {
+                    System.out.println(Arrays.toString(customer));
+                }
+            }
+
             scanner.close();  // Close the scanner after finishing
 
         } catch (FileNotFoundException e) {
@@ -131,6 +151,7 @@ public class Main {
         } catch (NumberFormatException e) {
             System.err.println("Error: Invalid number format in input.");
         }
+
 
         // SupermarketCheckout supermarketCheckout = new SupermarketCheckout();
         // int i = 0;

@@ -94,17 +94,18 @@ class Solution {
     }
 
     public List<List<String>> groupAnagrams10(String[] strs) {
-        Map<String, List<String>> anagramGroups = new HashMap<>();
+        List<List<String>> res = new ArrayList<>();
+        Map<String, List<String>> anagramMap = new HashMap<>();
         for (String str : strs) {
             int[] cCounts = new int[26];
             for (char c : str.toCharArray()) {
                 cCounts[c - 'a']++;
             }
             String key = Arrays.toString(cCounts);
-            anagramGroups.putIfAbsent(key, new ArrayList<>());
-            anagramGroups.get(key).add(str);
+            anagramMap.putIfAbsent(key, new ArrayList<>());
+            anagramMap.get(key).add(str);
         }
-        return new ArrayList<>(anagramGroups.values());
+        return new ArrayList<>(anagramMap.values());
     }
 
     public boolean isAnagram10(String s, String t) {

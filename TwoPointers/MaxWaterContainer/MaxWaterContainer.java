@@ -46,9 +46,11 @@ class Solution {
         int maxArea = 0;
         int l = 0, r = heights.length - 1;
         while (l < r) {
-            int area = Math.min(heights[l], heights[r]) * (r - l);
+            int height = Math.min(heights[l], heights[r]);
+            int width = r - l;
+            int area = height * width;
             maxArea = Math.max(maxArea, area);
-            if (heights[l] <= heights[r]) {
+            if (heights[l] < heights[r]) {
                 l++;
             } else {
                 r--;

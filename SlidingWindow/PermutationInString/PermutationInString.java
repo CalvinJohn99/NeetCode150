@@ -43,6 +43,48 @@ class Solution {
         return matches == 26;
     }
 
+    public boolean checkInclusionWithMapAndHaveAndNeed(String s1, String s2) {
+        if (s2.length() < s1.length()) {
+            return false;
+        }
+        Map<Character, Integer> s1Map = new HashMap<>();
+        for (char c : s1.toCharArray()) {
+            s1Map.put(c, s1Map.getOrDefault(c, 0) + 1);
+        }
+        Map<Character, Integer> windowMap = new HashMap<>();
+        for (int i = 0; i < s1.length(); i++) {
+            windowMap.put(s2.charAt(i), windowMap.getOrDefault(s2.charAt(i), 0) + 1);
+        }
+        int need = s1Map.size(), have = 0;
+        for (char key : windowMap.keySet()) {
+            if (s1Map.containsKey(key) && windowMap.get(key).equals(s1Map.get(key))) {
+                have++;
+            }
+        }
+        int l = 0;
+        for (int r = s1.length(); r < s2.length(); r++) {
+            if (have == need) {
+                return true;
+            }
+            windowMap.put(s2.charAt(r), windowMap.getOrDefault(s2.charAt(r), 0) + 1);
+            if (s1Map.containsKey(s2.charAt(r)) && windowMap.get(s2.charAt(r)).equals(s1Map.get(s2.charAt(r)))) {
+                have++;
+            }
+            if (s1Map.containsKey(s2.charAt(r)) && windowMap.get(s2.charAt(r)).equals(s1Map.get(s2.charAt(r)) + 1)) {
+                have--;
+            }
+            windowMap.put(s2.charAt(l), windowMap.get(s2.charAt(l)) - 1);
+            if (s1Map.containsKey(s2.charAt(l)) && (windowMap.get(s2.charAt(l))).equals(s1Map.get(s2.charAt(l)) - 1)) {
+                have--;
+            }
+            if (s1Map.containsKey(s2.charAt(l)) && windowMap.get(s2.charAt(l)).equals(s1Map.get(s2.charAt(l)))) {
+                have++;
+            }
+            l++;
+        }
+        return have == need;
+    }
+
     public boolean checkInclusionWithMap(String s1, String s2) {
         if (s1.length() > s2.length()) {
             return false;
@@ -146,46 +188,49 @@ class Solution {
         String s1 = args[0];
         String s2 = args[1];
         Solution solution = new Solution();
-        System.out.println(solution.checkInclusionWithMap(s1, s2));
+        System.out.println(solution.checkInclusion10(s1, s2));
     }
 
     public boolean checkInclusion10(String s1, String s2) {
-        if (s1.length() > s2.length()) {
+        if (s2.length() < s1.length()) {
             return false;
         }
-        Map<Character, Integer> s1Counts = new HashMap<>();
-        Map<Character, Integer> s2Counts = new HashMap<>();
+        int[] s1Counts = new int[26];
+        int[] s2Counts = new int[26];
         for (int i = 0; i < s1.length(); i++) {
-            s1Counts.put(s1.charAt(i), s1Counts.getOrDefault(s1.charAt(i), 0) + 1);
-            s2Counts.put(s2.charAt(i), s2Counts.getOrDefault(s2.charAt(i), 0) + 1);
+            // System.out.println("s1.charAt(i) - 'a': " + (char) (s1.charAt(i) - 'a'));
+            s1Counts[s1.charAt(i) - 'a']++;
+            s2Counts[s2.charAt(i) - 'a']++;
         }
-        int matching = 0;
-        for (Character key : s2Counts.keySet()) {
-            if (s1Counts.containsKey(key) && s1Counts.get(key).equals(s2Counts.get(key))) {
-                matching++;
+        int matches = 0;
+        for (int i = 0; i < 26; i++) {
+            if (s1Counts[i] == s2Counts[i]) {
+                matches++;
             }
         }
         int l = 0;
-        for (int r = s1.length(); r < s2.length(); r++) {
-            if (matching == s1Counts.keySet().size()) {
+        for(int r = s1.length(); r < s2.length(); r++) {
+            if (matches == 26) {
                 return true;
             }
-            char c = s2.charAt(r);
-            s2Counts.put(c, s2Counts.getOrDefault(c, 0) + 1);
-            if (s1Counts.containsKey(c) && s1Counts.get(c).equals(s2Counts.get(c))) {
-                matching++;
-            } else if (s1Counts.containsKey(c) && (s2Counts.get(c)).equals(s1Counts.get(c)+1)) {
-                matching--;
+            char rightChar = s2.charAt(r);
+            s2Counts[rightChar - 'a']++;
+            if (s1Counts[rightChar - 'a'] == s2Counts[rightChar - 'a']) {
+                matches++;
+            }
+            if (s1Counts[rightChar - 'a'] == s2Counts[rightChar - 'a'] - 1) {
+                matches--;
             }
             char leftChar = s2.charAt(l);
-            s2Counts.put(leftChar, s2Counts.get(leftChar) - 1);
-            if (s1Counts.containsKey(leftChar) && s1Counts.get(leftChar).equals(s2Counts.get(leftChar))) {
-                matching++;
-            } else if (s1Counts.containsKey(leftChar) && (s2Counts.get(leftChar).equals(s1Counts.get(leftChar)-1))) {
-                matching--;
+            s2Counts[leftChar - 'a']--;
+            if (s1Counts[leftChar - 'a'] == s2Counts[leftChar - 'a']) {
+                matches++;
+            }
+            if (s1Counts[leftChar - 'a'] == s2Counts[leftChar - 'a'] + 1) {
+                matches--;
             }
             l++;
         }
-        return matching == s1Counts.keySet().size();
+        return matches == 26;
     }
 }

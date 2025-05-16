@@ -52,17 +52,17 @@ class Solution {
     }
 
     public int lengthOfLongestSubstring10(String s) {
-        int longest = 0;
-        Set<Character> charSet = new HashSet<>();
-        int l = 0;
+        int res = 0;
+        Set<Character> set = new HashSet<>();
+        int l = 0; 
         for (int r = 0; r < s.length(); r++) {
-            while (charSet.contains(s.charAt(r))) {
-                charSet.remove(s.charAt(l));
+            while (set.contains(s.charAt(r))) {
+                set.remove(s.charAt(l));
                 l++;
             }
-            charSet.add(s.charAt(r));
-            longest = Math.max(charSet.size(), longest);
+            set.add(s.charAt(r));
+            res = Math.max(res, set.size());
         }
-        return longest;
+        return res;
     }
 }

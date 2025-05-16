@@ -115,6 +115,7 @@ class Solution {
     }
 
     public int[] topKFrequent10(int[] nums, int k) {
+        int[] res = new int[k];
         Map<Integer, Integer> numCounts = new HashMap<>();
         for (int num : nums) {
             numCounts.put(num, numCounts.getOrDefault(num, 0) + 1);
@@ -127,11 +128,10 @@ class Solution {
             buckets[entry.getValue()].add(entry.getKey());
         }
         int index = 0;
-        int[] res = new int[k];
-        for (int i = buckets.length - 1; i >= 0 && index < k; i--) {
-            for (int num : buckets[i]) {
-                res[index++] = num;
-                if (index == k) {
+        for (int i = buckets.length - 1; (i >= 0) && (index < k); i--) {
+            for (int value : buckets[i]) {
+                res[index++] = value;
+                if (index >= k) {
                     break;
                 }
             }

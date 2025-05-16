@@ -6,16 +6,16 @@ import java.util.Arrays;
 import java.util.TreeMap;
 
 class TimeMap {
-    private Map<String, List<Pair<Integer, String>>> timeMap;
+    Map<String, List> timeMap;
     // private Map<String, TreeMap<Integer, String>> timeMap;
 
     public TimeMap() {
         timeMap = new HashMap<>();
-    }
+   }
 
     public void set(String key, String value, int timestamp) {
         timeMap.putIfAbsent(key, new ArrayList<>());
-        timeMap.get(key).add(new Pair<>(timestamp, value));
+        timeMap.get(key).add(new Pair<>(timestamp, value));        
 
         // timeMap.putIfAbsent(key, new TreeMap<>());
         // timeMap.get(key).put(timestamp, value);
@@ -23,12 +23,15 @@ class TimeMap {
     
     public String get(String key, int timestamp) {
         String res = "";
-        List<Pair<Integer, String>> values = timeMap.getOrDefault(key, new ArrayList<>());
-        int l = 0, r = values.size() - 1;
+        if (!timeMap.containsKey(key)) {
+            return res;
+        }
+        List<Pair<Integer, String>> pairs = timeMap.get(key);
+        int l = 0, r = pairs.size() - 1;
         while (l <= r) {
             int m = (l + r) / 2;
-            if (values.get(m).getKey() <= timestamp) {
-                res = values.get(m).getValue();
+            if (pairs.get(m).getKey() <= timestamp) {
+                res = pairs.get(m).getValue();
                 l = m + 1;
             } else {
                 r = m - 1;
@@ -46,7 +49,7 @@ class TimeMap {
     //     return entry == null ? "" : entry.getValue();
     // }
 
-    private static class Pair<K, V> {
+    private static class Pair<K,V> {
         private final K key;
         private final V value;
 

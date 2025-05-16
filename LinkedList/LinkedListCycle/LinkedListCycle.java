@@ -66,6 +66,19 @@ class Solution {
         System.out.println("List: ");
         printLinkedList(head);
         Solution solution = new Solution();
-        System.out.println(solution.hasCycle(head));
+        System.out.println(solution.hasCycle10(head));
+    }
+
+    public boolean hasCycle10(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
     }
 }

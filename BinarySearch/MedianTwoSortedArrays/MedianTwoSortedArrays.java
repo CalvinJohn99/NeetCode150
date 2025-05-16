@@ -59,7 +59,7 @@ class Solution {
             for (int i = 0; i < nums2Str.length; i++) {
                 nums2[i] = Integer.parseInt(nums2Str[i]);
             }
-            System.out.println(solution.findMedianSortedArrays(nums1, nums2));
+            System.out.println(solution.findMedianSortedArrays10(nums1, nums2));
 
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -67,5 +67,42 @@ class Solution {
         } catch (NumberFormatException e) {
             System.err.println("Error: Invalid number format in input.");
         }
+    }
+
+    public double findMedianSortedArrays10(int[] nums1, int[] nums2) {
+        int[] A = nums1, B = nums2;
+        if (B.length < A.length) {
+            int[] temp = A;
+            A = B;
+            B = temp;
+        }
+
+        int total = nums1.length + nums2.length;
+        int half = (total + 1) / 2;
+
+        int l = 0, r = A.length;
+        while (l <= r) {
+            int i = (l + r) / 2;
+            int j = half - i;
+
+            int ALeft = (i > 0) ? A[i - 1] : Integer.MIN_VALUE;
+            int ARight = (i < A.length) ? A[i] : Integer.MAX_VALUE;
+            int BLeft = (j > 0) ? B[j - 1] : Integer.MIN_VALUE;
+            int BRight = (j < B.length) ? B[j] :Integer.MAX_VALUE;
+
+            if (ALeft <= BRight && BLeft <= ARight) {
+                if (total % 2 != 0) {
+                    return Math.max(ALeft, BLeft);
+                } else {
+                    return (Math.max(ALeft, BLeft) + Math.min(ARight, BRight)) / 2.0;
+                }
+            } else if (ALeft > BRight) {
+                r = i - 1;
+            } else {
+                l = i + 1;
+            }
+        }
+        
+        return 0;
     }
 }

@@ -41,7 +41,7 @@ class Solution {
             int h = Integer.parseInt(scanner.nextLine().trim());
 
             Solution solution = new Solution();
-            System.out.println(solution.minEatingSpeed(pilesInt, h));
+            System.out.println(solution.minEatingSpeed10(pilesInt, h));
 
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -49,5 +49,28 @@ class Solution {
         } catch (NumberFormatException e) {
             System.out.println("Invalid number format in input.");
         }
+    }
+
+    public int minEatingSpeed10(int[] piles, int h) {
+        int res = Integer.MAX_VALUE;
+        int maxPile = 0;
+        for (int i = 0; i < piles.length; i++) {
+            maxPile = Math.max(maxPile, piles[i]);
+        }
+        int l = 0, r = maxPile;
+        while (l <= r) {
+            int k = (l + r) / 2;
+            int timeToEat = 0;
+            for (int pile : piles) {
+                timeToEat += Math.ceil((double) pile / k);
+            }
+            if (timeToEat <= h) {
+                res = k;
+                r = k - 1;
+            } else {
+                l = k + 1;
+            }
+        }
+        return res;
     }
 }

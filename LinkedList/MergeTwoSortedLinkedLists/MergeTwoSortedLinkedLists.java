@@ -73,8 +73,30 @@ class Solution {
         printLinkedList(list2);
 
         Solution solution = new Solution();
-        ListNode mergedList = solution.mergeTwoLists(list1, list2);
+        ListNode mergedList = solution.mergeTwoLists10(list1, list2);
         System.out.println("Merged List: ");
         printLinkedList(mergedList);
+    }
+
+    public ListNode mergeTwoLists10(ListNode list1, ListNode list2) {
+        ListNode head = new ListNode(0);
+        ListNode node = head;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                node.next = list1;
+                list1 = list1.next;
+            } else {
+                node.next = list2;
+                list2 = list2.next;
+            }
+            node = node.next;
+        }
+        if (list1 != null) {
+            node.next = list1;
+        }
+        if (list2 != null) {
+            node.next = list2;
+        }
+        return head.next;
     }
 }
